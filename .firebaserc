@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "kensungakari"
+  },
+  "targets": {
+    "kensungakari": {
+      "hosting": {
+        "ngx-admin-demo": [
+          "kensungakari"
+        ]
+      }
+    }
+  }
+}
