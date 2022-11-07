@@ -68,6 +68,14 @@ export class StepperComponent implements OnInit {
     this.datamanage.setStore(this.tournament_name, this.target_count, this.target_fish);
   }
 
+  get_test_tournament(){
+    const result = this.datamanage.getDataList();
+    result.then(e=>{
+      console.log(e);
+      console.log(e[0]);
+    });
+  }
+
 
 
   onFirstSubmit() {

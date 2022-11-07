@@ -25,7 +25,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/layout/stepper',
       },
       {
-        title: 'List',
+        title: '大会一覧',
         link: '/pages/layout/list',
       },
       {

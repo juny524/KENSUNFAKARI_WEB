@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { fruits } from './fruits-list';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatamanageService } from '../../../service/datamanage.service';
 
 @Component({
   selector: 'ngx-list',
@@ -9,11 +11,15 @@ import { fruits } from './fruits-list';
 export class ListComponent {
   fruits = fruits;
 
-  users: { name: string, title: string }[] = [
-    { name: 'Carla Espinosa', title: 'Nurse' },
-    { name: 'Bob Kelso', title: 'Doctor of Medicine' },
-    { name: 'Janitor', title: 'Janitor' },
-    { name: 'Perry Cox', title: 'Doctor of Medicine' },
-    { name: 'Ben Sullivan', title: 'Carpenter and photographer' },
-  ];
+  users: { id: string, name: string }[] = [];
+
+  constructor(private fb: FormBuilder, private datamanage: DatamanageService) {
+  }
+
+  ngOnInit() {
+      const datas = this.datamanage.getDataList();
+      datas.then(e=>{
+        this.users = e;
+      });
+  }
 }
