@@ -5,8 +5,8 @@
             <nb-card-body>
                 <nb-list>
                     <nb-list-item *ngFor="let user of users">
-                        <nb-user [id]="user.id" [name]="user.name">
-                        </nb-user>
+                        <button nbButton (click)="navigate(user.id)"><nb-user [id]="user.id" [name]="user.name">
+                        </nb-user></button>
                     </nb-list-item>
                 </nb-list>
             </nb-card-body>

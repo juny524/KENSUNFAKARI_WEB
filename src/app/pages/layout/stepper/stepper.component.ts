@@ -39,8 +39,24 @@ export class StepperComponent implements OnInit {
   target_fishs: string[] = [
     "クロダイ",
     "シーバス",
+    "グレ",
     "青物",
-    "サワラ"
+    "サワラ",
+    "タチウオ",
+    "マダイ",
+    "コブダイ",
+    "イシダイ",
+    "メバル",
+    "アジ",
+    "コウイカ",
+    "マダコ",
+    "マゴチ",
+    "ガシラ",
+    "ヒラメ",
+    "カレイ",
+    "アイナメ",
+    "アカエイ",
+    "ボラ"
   ];
 
   constructor(private fb: FormBuilder, private datamanage: DatamanageService) {

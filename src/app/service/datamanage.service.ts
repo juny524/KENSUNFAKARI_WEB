@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc, Timestamp, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, Timestamp, doc, setDoc, updateDoc, arrayUnion, getDocFromCache } from "firebase/firestore";
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { environment } from '../../environments/environment';
 })
 export class DatamanageService {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
 
   async setStore(name: String, target_count: number, target_fish: String){
@@ -23,6 +24,7 @@ export class DatamanageService {
         createdate: Timestamp.fromDate(new Date()),
       });
       console.log("Document written with ID: ", docRef.id);
+      this.router.navigateByUrl('/pages/layout/list');
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -85,6 +87,18 @@ export class DatamanageService {
       }
     };
     await addDoc(collection(db, "tournament"), docData);
+  }
+
+  async readTournament(id: string){
+    const app = initializeApp(environment.firebase);
+    const db = getFirestore(app);
+    const docRef = doc(db, "tournament", id);
+    try {
+      const doc = await getDocFromCache(docRef);
+      console.log("Cached document data:", doc.data());
+    } catch (e) {
+      console.log("Error getting cached document:", e);
+    }
   }
 
 

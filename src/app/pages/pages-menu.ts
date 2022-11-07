@@ -29,16 +29,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/layout/list',
       },
       {
-        title: 'Infinite List',
-        link: '/pages/layout/infinite-list',
-      },
-      {
-        title: 'Accordion',
+        title: '参加大会',
         link: '/pages/layout/accordion',
       },
       {
         title: 'Tabs',
-        pathMatch: 'prefix',
         link: '/pages/layout/tabs',
       },
       {
