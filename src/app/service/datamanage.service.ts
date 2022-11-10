@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc, Timestamp, doc, setDoc, updateDoc, arrayUnion, getDocFromCache } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, Timestamp, doc, setDoc, updateDoc, arrayUnion, getDocFromCache, query, where } from "firebase/firestore";
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 
@@ -13,7 +13,7 @@ export class DatamanageService {
   constructor(private router: Router) { }
 
 
-  async setStore(name: String, target_count: number, target_fish: String){
+  async setStore(name: String, target_count: number, target_fish: String, google_user_id: String){
     const app = initializeApp(environment.firebase);
     const db = getFirestore(app);
     try {
@@ -21,6 +21,7 @@ export class DatamanageService {
         name: name,
         target_count: target_count,
         target_fish: target_fish,
+        google_user_id: google_user_id,
         createdate: Timestamp.fromDate(new Date()),
       });
       console.log("Document written with ID: ", docRef.id);
@@ -41,6 +42,23 @@ export class DatamanageService {
       console.log(`${doc.get("target_fish")}`);
       
     });
+  }
+
+  async getTournamentList(google_user: string): Promise<{ id: string, name: string }[]> {
+    const app = initializeApp(environment.firebase);
+    const db = getFirestore(app);
+    const citiesRef = collection(db, "tournament");
+    const q = query(citiesRef, where("google_user_id", "==", google_user));
+    const querySnapshot = await getDocs(q);
+    let ret: { id: string, name: string }[] = new Array();
+    querySnapshot.forEach((doc) => {
+      ret.push({
+        id: doc.id,
+        name: doc.get("name")
+      });
+    });
+    console.log(JSON.stringify(ret));
+    return ret;
   }
 
   async getDataList(): Promise<{ id: string, name: string }[]> {

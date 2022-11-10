@@ -22,6 +22,7 @@ import { NewsPostComponent } from './infinite-list/news-post/news-post.component
 import { NewsPostPlaceholderComponent } from './infinite-list/news-post-placeholder/news-post-placeholder.component';
 import { AccordionComponent } from './accordion/accordion.component';
 import { NewsService } from './news.service';
+import { NgxQrcodeStylingModule } from 'ngx-qrcode-styling';
 
 const MODULES = [
   FormsModule,
@@ -47,6 +48,7 @@ const MODULES = [
     NbUserModule,
     LayoutRoutingModule,
     NbSelectModule,
+    NgxQrcodeStylingModule,
   ],
   declarations: [
     LayoutComponent,

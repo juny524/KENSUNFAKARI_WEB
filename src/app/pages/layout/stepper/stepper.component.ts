@@ -82,7 +82,11 @@ export class StepperComponent implements OnInit {
   }
 
   register_tournament(){
-    this.datamanage.setStore(this.tournament_name, this.target_count, this.target_fish);
+    const userdata = localStorage.getItem("user");
+    if(userdata != null){
+      const login_user = JSON.parse(userdata);
+      this.datamanage.setStore(this.tournament_name, this.target_count, this.target_fish, login_user.uid);
+    }
   }
 
   get_test_tournament(){
@@ -96,6 +100,9 @@ export class StepperComponent implements OnInit {
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
+
+        console.log(user);
+        localStorage.setItem("user",JSON.stringify(user));
         // ...
       }).catch((error) => {
         // Handle Errors here.
@@ -108,6 +115,16 @@ export class StepperComponent implements OnInit {
         // ...
       });
 
+  }
+
+  get_read(){
+    const userdata = localStorage.getItem("user");
+    if(userdata != null){
+      console.log(JSON.parse(userdata));
+    }
+    else{
+      console.log("no login");
+    }
   }
 
 

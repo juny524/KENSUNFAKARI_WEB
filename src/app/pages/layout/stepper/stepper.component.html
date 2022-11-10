@@ -8,7 +8,8 @@
                     もし貴方が釣り大会の主催者なら、下のテキストボックスに大会の名前を入力してください、後から変えられないので慎重に……
                 </p>
                 <input type="text" placeholder="Enter tournament name" class="form-control" formControlName="firstCtrl" [ngClass]="{'form-control-danger': firstForm.invalid && (firstForm.dirty || firstForm.touched)}" #name>
-                <button nbButton (click)="get_test_tournament()">戻る</button>
+                <button nbButton (click)="get_read()">出力</button>
+                <button nbButton (click)="get_test_tournament()">ログイン</button>
                 <button nbButton nbStepperNext (click)="set_tournament(name.value)">次へ</button>
             </nb-step>
             <nb-step [label]="labelTwo">

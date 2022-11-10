@@ -4,12 +4,14 @@
             <nb-tabset fullWidth>
                 <nb-tab tabTitle="大会結果">
                     <p>大会ID: <b>{{ myParam }}</b></p>
+
                 </nb-tab>
                 <nb-tab tabTitle="釣果入力">
                     <span>Content #2</span>
                 </nb-tab>
                 <nb-tab tabTitle="参加者追加">
-                    <span>Content #3</span>
+                    <p>大会QR</p>
+                    <ngx-qrcode-styling [config]="config"></ngx-qrcode-styling>
                 </nb-tab>
             </nb-tabset>
         </nb-card>

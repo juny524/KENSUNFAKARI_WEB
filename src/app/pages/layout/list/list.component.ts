@@ -18,10 +18,14 @@ export class ListComponent {
   }
 
   ngOnInit() {
-      const datas = this.datamanage.getDataList();
+    const userdata = localStorage.getItem("user");
+    if(userdata != null){
+      const login_user = JSON.parse(userdata);
+      const datas = this.datamanage.getTournamentList(login_user.uid);
       datas.then(e=>{
         this.users = e;
       });
+    }
   }
   
   testare(id: string){

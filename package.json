@@ -64,10 +64,12 @@
     "ng2-completer": "^9.0.1",
     "ng2-smart-table": "^1.6.0",
     "ngx-echarts": "^4.2.2",
+    "ngx-qrcode-styling": "^1.1.7",
     "node-sass": "^4.14.1",
     "normalize.css": "6.0.0",
     "pace-js": "1.0.2",
     "roboto-fontface": "0.8.0",
+    "rxfire": "^6.0.0",
     "rxjs": "6.6.2",
     "rxjs-compat": "6.3.0",
     "socicon": "3.0.5",
@@ -76,8 +78,7 @@
     "tslib": "^2.3.1",
     "typeface-exo": "0.0.22",
     "web-animations-js": "^2.3.2",
-    "zone.js": "~0.11.4",
-    "rxfire": "^6.0.0"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^12.1.4",
