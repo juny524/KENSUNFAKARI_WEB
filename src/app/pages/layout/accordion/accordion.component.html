@@ -3,15 +3,38 @@
         <nb-card size="small">
             <nb-tabset fullWidth>
                 <nb-tab tabTitle="大会結果">
-                    <p>大会ID: <b>{{ myParam }}</b></p>
+                    <p>大会名: <b>{{ tournament_name }}</b></p>
+                    <p>対象魚: <b>{{ target_fish }}</b></p>
+                    <p>長寸: <b>{{ target_count }}匹</b></p>
 
                 </nb-tab>
                 <nb-tab tabTitle="釣果入力">
-                    <span>Content #2</span>
+                    <nb-select [(ngModel)]='member_id' class="position-select">
+                        <nb-option *ngFor="let p of users" [value]="p.id">{{ p.name }}</nb-option>
+                    </nb-select>
+                    <input type="text" placeholder="Enter fish size" class="form-control" [(ngModel)]="fish_size">
+                    <button nbButton (click)="set_record()">釣果入力</button>
                 </nb-tab>
                 <nb-tab tabTitle="参加者追加">
                     <p>大会QR</p>
                     <ngx-qrcode-styling [config]="config"></ngx-qrcode-styling>
+                    <p>参加者入力</p>
+                    <input type="text" placeholder="Enter member name" class="form-control" [(ngModel)]="member_name_setting" #member_name>
+                    <button nbButton (click)="set_member(member_name.value)">メンバー入力</button>
+
+
+                    <nb-card class="list-card">
+                        <nb-card-header>参加メンバー</nb-card-header>
+                        <nb-card-body>
+                            <nb-list>
+                                <nb-list-item *ngFor="let user of users">
+                                    <nb-user [name]="user.name">
+                                    </nb-user>
+                                </nb-list-item>
+                            </nb-list>
+                        </nb-card-body>
+                    </nb-card>
+
                 </nb-tab>
             </nb-tabset>
         </nb-card>

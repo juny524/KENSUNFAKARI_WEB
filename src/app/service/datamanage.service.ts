@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc, Timestamp, doc, setDoc, updateDoc, arrayUnion, getDocFromCache, query, where } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, Timestamp, doc, setDoc, updateDoc, arrayUnion, getDocFromCache, query, where, getDoc } from "firebase/firestore";
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 
@@ -26,6 +26,33 @@ export class DatamanageService {
       });
       console.log("Document written with ID: ", docRef.id);
       this.router.navigateByUrl('/pages/layout/list');
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+  async setMember(name: String, tournament_id: String){
+    const app = initializeApp(environment.firebase);
+    const db = getFirestore(app);
+    try {
+      const docRef = await addDoc(collection(db, "member"), {
+        name: name,
+        tournament_id: tournament_id,
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+  
+  async setRecord(size: number, member_id: String, tournament_id: String){
+    const app = initializeApp(environment.firebase);
+    const db = getFirestore(app);
+    try {
+      const docRef = await addDoc(collection(db, "record"), {
+        size: size,
+        member_id: member_id,
+        tournament_id: tournament_id,
+      });
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -60,6 +87,26 @@ export class DatamanageService {
     console.log(JSON.stringify(ret));
     return ret;
   }
+
+  async getMembers(tournament_id: string): Promise<{ id: string,name: string, tournament_id: string }[]> {
+    const app = initializeApp(environment.firebase);
+    const db = getFirestore(app);
+    const citiesRef = collection(db, "member");
+    const q = query(citiesRef, where("tournament_id", "==", tournament_id));
+    const querySnapshot = await getDocs(q);
+    let ret: { id: string, name: string, tournament_id: string }[] = new Array();
+    querySnapshot.forEach((doc) => {
+      ret.push({
+        id: doc.id,
+        name: doc.get("name"),
+        tournament_id: doc.get("tournament_id")
+      });
+    });
+    console.log(JSON.stringify(ret));
+    return ret;
+  }
+
+  
 
   async getDataList(): Promise<{ id: string, name: string }[]> {
     const app = initializeApp(environment.firebase);
@@ -117,6 +164,16 @@ export class DatamanageService {
     } catch (e) {
       console.log("Error getting cached document:", e);
     }
+  }
+
+  async getTournament(tournament_id: string): Promise<{ name: string, target_count: number, target_fish: string }>{
+    const app = initializeApp(environment.firebase);
+    const db = getFirestore(app);
+    const docRef = doc(db, "tournament", tournament_id);
+    const docSnap = await getDoc(docRef);
+    const datas = docSnap.data();
+    const ret = { name: datas.name, target_count: datas.target_count, target_fish: datas.target_fish };
+    return ret;
   }
 
 
