@@ -15,12 +15,14 @@ import { id } from '@swimlane/ngx-charts';
   encapsulation: ViewEncapsulation.None,
   
 })
+
 export class AccordionComponent {
 
   myParam: any;
   tournament_name: any;
   target_fish: any;
   target_count: any;
+  ranking: any;
   kara: string;
   member_name_setting = '';
   member_id = '';
@@ -52,19 +54,77 @@ export class AccordionComponent {
         this.config = tournament_qr;
 
         const result = this.datamanage.getTournament(this.myParam);
-        result.then(e=>{
-          console.log(e);
-          this.tournament_name = e.name;
-          this.target_fish = e.target_fish;
-          this.target_count = e.target_count;
-        });
+        result.then(tournament=>{
+          console.log(tournament);
+          this.tournament_name = tournament.name;
+          this.target_fish = tournament.target_fish;
+          this.target_count = tournament.target_count;
 
-        
-        const members = this.datamanage.getMembers(this.myParam);
-        members.then(e=>{
-          this.users = e;
+          
+          const members = this.datamanage.getMembers(this.myParam);
+          members.then(e=>{
+            this.users = e;
+            interface Dict {
+              [key: string]: string;
+            }
+            let memberary: Dict = {};
+            e.forEach((doc) => {
+              memberary[doc.id] = doc.name;
+            } );
+            const record = this.datamanage.getRecord(this.myParam);
+            record.then(record_datas=>{
+              var rank = [];
+              let i:number = 0;
+              e.forEach((doc) => {
+                console.log(memberary[doc.id]);
+                var data: Array<number> = [];
+                record_datas.forEach((record_data) => {
+                  if(doc.id == record_data.member_id){
+                    data.push(record_data.size);
+                  }
+                });
+                data.sort(function(first, second){
+                  if (first > second){
+                    return -1;
+                  }else if (first < second){
+                    return 1;
+                  }else{
+                    return 0;
+                  }
+                });
+                data.length = tournament.target_count;
+                var kekka: number = 0;
+                let data_dis: string = "";
+                for (let i = 0; i < tournament.target_count; i++){
+                  if(data[i]){
+                    kekka += data[i];
+                    data_dis = data_dis + data[i] + ", ";
+                  }
+                }
+                var rankdata = {};
+                rankdata["user_name"] = memberary[doc.id];
+                rankdata["sum"] = kekka;
+                rankdata["size"] = data;
+                rankdata["size_dis"] = data_dis;
+                rankdata["display"] = memberary[doc.id] + "　　　　合計: " + kekka + "　　　　詳細: " + data_dis;
+                rank[i] = rankdata;
+                
+                // console.log(kekka);
+                // console.log(data);
+                i++;
+              });
 
+              rank.sort((a, b) => b.sum - a.sum);
+              i = 0;
+              rank.forEach((r) => {
+                rank[i]["display"] = (i + 1) + "位　" + rank[i]["display"]
 
+                i++;
+              })
+              console.log(rank);
+              this.ranking = rank;
+            });
+          });
         });
       }
     );
@@ -90,5 +150,4 @@ export class AccordionComponent {
     // myParam
 
   }
-
 }

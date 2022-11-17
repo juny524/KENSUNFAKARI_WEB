@@ -84,7 +84,6 @@ export class DatamanageService {
         name: doc.get("name")
       });
     });
-    console.log(JSON.stringify(ret));
     return ret;
   }
 
@@ -102,7 +101,23 @@ export class DatamanageService {
         tournament_id: doc.get("tournament_id")
       });
     });
-    console.log(JSON.stringify(ret));
+    return ret;
+  }
+
+  async getRecord(tournament_id: string): Promise<{ member_id: string,size: number, tournament_id: string }[]> {
+    const app = initializeApp(environment.firebase);
+    const db = getFirestore(app);
+    const citiesRef = collection(db, "record");
+    const q = query(citiesRef, where("tournament_id", "==", tournament_id));
+    const querySnapshot = await getDocs(q);
+    let ret: { member_id: string,size: number, tournament_id: string }[] = new Array();
+    querySnapshot.forEach((doc) => {
+      ret.push({
+        member_id: doc.get("member_id"),
+        size: doc.get("size"),
+        tournament_id: doc.get("tournament_id")
+      });
+    });
     return ret;
   }
 

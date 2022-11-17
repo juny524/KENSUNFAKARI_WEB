@@ -6,6 +6,18 @@
                     <p>大会名: <b>{{ tournament_name }}</b></p>
                     <p>対象魚: <b>{{ target_fish }}</b></p>
                     <p>長寸: <b>{{ target_count }}匹</b></p>
+                    <nb-card class="list-card">
+                        <nb-card-header></nb-card-header>
+                        <nb-card-body>
+                            <nb-list>
+                                <nb-list-item *ngFor="let r of ranking">
+                                    <nb-user [name]="r.display">
+                                    </nb-user>
+                                </nb-list-item>
+                            </nb-list>
+                        </nb-card-body>
+                    </nb-card>
+
 
                 </nb-tab>
                 <nb-tab tabTitle="釣果入力">
